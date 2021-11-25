@@ -1,19 +1,22 @@
-# TCC Compiler
-[![Build Status](https://travis-ci.org/LiHRaM/vscode-tcc-compiler.svg?branch=master)](https://travis-ci.org/LiHRaM/vscode-tcc-compiler)
-
-Quickly compile and run your C applications with the [Tiny C Compiler](https://bellard.org/tcc/) integrated with VSCode!
+# Tiny-C Compiler
+Run and compile C programs with Tiny-C (tcc) from VSCode.<br/>
+This extension is based on Hilmar Gústafsson's "TCC Compiler" (https://github.com/LiHRaM/vscode-tcc-compiler)<br/>
+and Fabrice Bellard's Tiny C Compiler (https://bellard.org/tcc/)
 
 ## Install 
 ```sh
 ext install vs-tcc
 ``` 
 ## Features
-- Completely independent.
-- Instantly run the program by using palette command `TCC: Run`
-- Compile to executable file with palette command `TCC: Compile`
+- Comes with integrated tcc on the Windows platform
+- Run your code with the command `TCC: Run` or use the shortcut `"F10"`
+- Build an executable with `TCC: Compile` or use the shortcut `"F11"` 
 - Configure build args for projects with the workspace settings `TCC.flags` and `TCC.args`
-- Currently, this extension supports Win32 and Linux (x86_64) configurations of vscode. The Tiny C Compiler is included for both platforms.
+- Currently, this extension supports Win32 and Linux (x86_64) configurations of vscode.<br/>
+   The Tiny C Compiler is included for Windows plattforms.<br/>
+   For Linux you have to install `tcc` from a package repository. e.g. Ubuntu: `sudo apt install tcc`
 
 ## License
-MIT - Extension
-GNU Lesser General Public License (LGPL) - Tiny C Compiler
+MIT ... this extension<br/>
+GNU Lesser General Public License (LGPL) ... Tiny-C Compiler
+

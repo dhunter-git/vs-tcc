@@ -10,14 +10,14 @@ export function activate(context: ExtensionContext) {
 
   // TCC: Run
   context.subscriptions.push(
-    commands.registerCommand("tcc-compiler.run", () => {
+    commands.registerCommand("tcc.run", () => {
       run();
     })
   );
 
   // TCC: Compile
   context.subscriptions.push(
-    commands.registerCommand("tcc-compiler.compile", () => {
+    commands.registerCommand("tcc.compile", () => {
       compile();
     })
   );

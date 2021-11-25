@@ -7,6 +7,7 @@ import {
   WorkspaceConfiguration
 } from "vscode";
 import * as path from "path";
+const os = require('os');
 
 let _terminalStack = [];
 let _context = null;
@@ -106,12 +107,16 @@ function tcc(flags: string): string {
   let space = " ";
   let tccPath = "";
   switch(os.platform()) {
-    case 'linux'':
-      tccPath = "/tcc-x86_64/tcc";
-      break;
-    case 'win32'':
+    case 'linux':
+      tccPath = "usr/bin/tcc";
+      return path
+        .join("/", tccPath)
+        .concat(space + flags);
+    case 'win32':
       tccPath = "/tcc-win32/tcc.exe";
-      break;
+      return path
+        .join(_context.extensionPath, tccPath)
+        .concat(space + flags);
     default:
       console.log("Error: plattform " + os.platform() + " not supported.");
   }
