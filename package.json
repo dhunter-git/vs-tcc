@@ -2,7 +2,7 @@
 	"name": "vs-tcc",
 	"displayName": "Tiny-C Compiler tcc",
 	"description": "Tiny-C compiler (tcc) for Visual Studio Code.",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"publisher": "nikomedes",
     "icon": "tcc-logo.png",
 	"homepage": "https://github.com/nikomedes/vs-tcc/blob/main/README.md",
@@ -11,7 +11,7 @@
 		"url": "https://github.com/nikomedes/vs-tcc"
 	},
 	"engines": {
-		"vscode": "^1.0.0"
+		"vscode": "^1.67.0"
 	},
 	"categories": [
 		"Languages",
@@ -22,7 +22,7 @@
         "onCommand:tcc.run",
         "onCommand:tcc.compile"
 	],
-	"main": "./out/src/main",
+	"main": "./out/main",
 	"contributes": {
 		"configuration": {
 			"type": "object",
@@ -72,13 +72,23 @@
         ]
 	},
 	"scripts": {
-		"vscode:prepublish": "tsc -p ./",
-		"compile": "tsc -watch -p ./",
-		"postinstall": "node ./node_modules/vscode/bin/install"
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"pretest": "npm run compile && npm run lint",
+		"lint": "eslint src --ext ts",
+		"test": "node ./out/test/runTest.js"
 	},
 	"devDependencies": {
-		"vscode": "^1.0.0",
-		"@types/node": "^6.0.40",
-		"typescript": "^4.5.2"
-	}
+		"@types/vscode": "^1.67.0",
+		"@types/glob": "^7.2.0",
+		"@types/mocha": "^9.1.1",
+		"@types/node": "14.x",
+		"@typescript-eslint/eslint-plugin": "^5.21.0",
+		"@typescript-eslint/parser": "^5.21.0",
+		"eslint": "^8.14.0",
+		"glob": "^8.0.1",
+		"mocha": "^9.2.2",
+		"typescript": "^4.6.4",
+		"@vscode/test-electron": "^2.1.3"	}
 }

@@ -1,16 +1,11 @@
 "use strict";
-import {
-  window,
-  ExtensionContext,
-  Terminal,
-  workspace,
-  WorkspaceConfiguration
-} from "vscode";
+import * as vscode from 'vscode';
+
 import * as path from "path";
 const os = require('os');
 
-let _terminalStack = [];
-let _context = null;
+let _terminalStack: vscode.Terminal[] = [];
+let _context:vscode.ExtensionContext;
 
 /**
  * Runs according to current flags.
@@ -28,14 +23,14 @@ export function run(): void {
  */
 export function compile(): void {
   checkTerminal();
-  getLatestTerminal().sendText(tcc(getFlags()));
+  getLatestTerminal().sendText(tcc(getFlags() + " " + getArgs()));
   getLatestTerminal().show();
 }
 
 /**
  * Sets the context.
  */
-export function setContext(context: ExtensionContext) {
+export function setContext(context: vscode.ExtensionContext) {
   _context = context;
 }
 
@@ -45,7 +40,7 @@ export function setContext(context: ExtensionContext) {
 function getFlags(): string {
   let space = " ";
   try {
-    var conf = workspace.getConfiguration("TCC").get("flags");
+    var conf = vscode.workspace.getConfiguration("TCC").get("flags");
     if (conf !==  null && conf !== undefined) {
       return space + conf;
     }
@@ -62,7 +57,7 @@ function getFlags(): string {
 function getArgs(): string {
   let space = " ";
   try {
-    var conf = workspace.getConfiguration("TCC").get("args");
+    var conf = vscode.workspace.getConfiguration("TCC").get("args");
     if (conf !==  null && conf !== undefined) {
       return space + conf;
     }
@@ -78,7 +73,7 @@ function getArgs(): string {
  */
 function checkTerminal() {
   if (0 === _terminalStack.length) {
-    let terminal = window.createTerminal(
+    let terminal = vscode.window.createTerminal(
       `compiler #${_terminalStack.length + 1}`
     );
     _terminalStack.push(terminal);
@@ -88,7 +83,7 @@ function checkTerminal() {
 /**
  * Gets the current terminal.
  */
-function getLatestTerminal(): Terminal {
+function getLatestTerminal(): vscode.Terminal {
   return _terminalStack[_terminalStack.length - 1];
 }
 
@@ -96,7 +91,10 @@ function getLatestTerminal(): Terminal {
  * Gets the name of the current C file.
  */
 function getFileName(): string {
-  return '"' + window.activeTextEditor.document.fileName.toString() + '"';
+  if (vscode.window.activeTextEditor == undefined)
+    return '""';
+  else
+    return '"' + vscode.window.activeTextEditor.document.fileName.toString() + '"';
 }
 
 /**

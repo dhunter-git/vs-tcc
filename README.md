@@ -6,7 +6,7 @@ and Fabrice Bellard's Tiny C Compiler (https://bellard.org/tcc/)
 ## Install 
 ```sh
 ext install vs-tcc
-``` 
+```
 ## Features
 - Comes with integrated tcc on the Windows platform
 - Run your code with the command `TCC: Run` or use the shortcut `"F10"`
@@ -16,7 +16,17 @@ ext install vs-tcc
    The Tiny C Compiler is included for Windows plattforms.<br/>
    For Linux you have to install `tcc` from a package repository. e.g. Ubuntu: `sudo apt install tcc`
 
+
+
+## Release Notes
+
+Version 1.0.3
+
+Pressing "F11" (compile) now also uses TCC.args for compilation.
+
+
+
 ## License
+
 MIT ... this extension<br/>
 GNU Lesser General Public License (LGPL) ... Tiny-C Compiler
-

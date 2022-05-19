@@ -1,8 +1,9 @@
 "use strict";
-import { ExtensionContext, commands } from "vscode";
-import { run, compile, setContext } from "./commands";
 
-export function activate(context: ExtensionContext) {
+import { run, compile, setContext } from "./commands";
+import * as vscode from 'vscode';
+
+export function activate(context: vscode.ExtensionContext) {
   console.log("TCC-Compiler is active.");
 
   // Send the context to the functions folder to keep this one lean.
@@ -10,14 +11,14 @@ export function activate(context: ExtensionContext) {
 
   // TCC: Run
   context.subscriptions.push(
-    commands.registerCommand("tcc.run", () => {
+    vscode.commands.registerCommand("tcc.run", () => {
       run();
     })
   );
 
   // TCC: Compile
   context.subscriptions.push(
-    commands.registerCommand("tcc.compile", () => {
+    vscode.commands.registerCommand("tcc.compile", () => {
       compile();
     })
   );
