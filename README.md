@@ -18,7 +18,28 @@ ext install vs-tcc
 
 
 
+## Build
+
+Requirements:
+
+- node.js Version 14+
+- npm
+- tsc
+- vsce
+
+To build the package, just issue:
+
+​	vsce package
+
+
+
 ## Release Notes
+
+Version 1.0.4
+
+Fixed problem with missing tcc.exe on windows.
+
+
 
 Version 1.0.3
 

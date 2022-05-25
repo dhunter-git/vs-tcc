@@ -2,7 +2,7 @@
 	"name": "vs-tcc",
 	"displayName": "Tiny-C Compiler tcc",
 	"description": "Tiny-C compiler (tcc) for Visual Studio Code.",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"publisher": "nikomedes",
     "icon": "tcc-logo.png",
 	"homepage": "https://github.com/nikomedes/vs-tcc/blob/main/README.md",
