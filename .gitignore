@@ -37,3 +37,9 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+out
+dist
+node_modules
+.vscode-test/
+*.vsix

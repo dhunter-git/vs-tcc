@@ -13,7 +13,7 @@ ext install vs-tcc
 - Build an executable with `TCC: Compile` or use the shortcut `"F11"` 
 - Configure build args for projects with the workspace settings `TCC.flags` and `TCC.args`
 - Currently, this extension supports Win32 and Linux (x86_64) configurations of vscode.<br/>
-   The Tiny C Compiler is included for Windows plattforms.<br/>
+   The Tiny C Compiler is included for Windows platforms.<br/>
    For Linux you have to install `tcc` from a package repository. e.g. Ubuntu: `sudo apt install tcc`
 
 

@@ -1,20 +1,39 @@
 "use strict";
 import * as vscode from 'vscode';
-
 import * as path from "path";
 const os = require('os');
 
 let _terminalStack: vscode.Terminal[] = [];
-let _context:vscode.ExtensionContext;
+let _context: vscode.ExtensionContext;
+
+
+function call_tcc(run_arg: string): void {
+  if (vscode.window.activeTextEditor === undefined) {
+    vscode.window.showInformationMessage('Tiny-C Compiler tcc Extension : Load file first');
+  }
+  else if (vscode.window.activeTextEditor.document.isUntitled) {
+    vscode.window.showInformationMessage('Tiny-C Compiler tcc Extension : Save file first');
+  }
+  else if (vscode.window.activeTextEditor.document.languageId === "c") {
+    let _activeTextEditor: vscode.TextDocument = vscode.window.activeTextEditor.document;
+    if (_activeTextEditor.isDirty) { _activeTextEditor.save(); };
+    checkTerminal();
+    getLatestTerminal().sendText(tcc(getFlags() + run_arg + getArgs()));
+    if ((vscode.window.activeTerminal === undefined) || (vscode.window.activeTerminal !== _terminalStack[0])) {
+      getLatestTerminal().show();
+    }
+  }
+  else {
+    vscode.window.showInformationMessage('Tiny-C Compiler tcc Extension : must Edit C file');
+  }
+}
 
 /**
  * Runs according to current flags.
  * Defaults to currently open C file if no flags are given.
  */
 export function run(): void {
-  checkTerminal();
-  getLatestTerminal().sendText(tcc(getFlags() + " -run " + getArgs()));
-  getLatestTerminal().show();
+  call_tcc(" -run ");
 }
 
 /**
@@ -22,9 +41,7 @@ export function run(): void {
  * Defaults to currently open C file if no tcc.json file is found.
  */
 export function compile(): void {
-  checkTerminal();
-  getLatestTerminal().sendText(tcc(getFlags() + " " + getArgs()));
-  getLatestTerminal().show();
+  call_tcc(" ");
 }
 
 /**
@@ -41,7 +58,7 @@ function getFlags(): string {
   let space = " ";
   try {
     var conf = vscode.workspace.getConfiguration("TCC").get("flags");
-    if (conf !==  null && conf !== undefined) {
+    if (conf !== null && conf !== undefined) {
       return space + conf;
     }
     throw new Error("No flags given. Reverting to default.");
@@ -58,7 +75,7 @@ function getArgs(): string {
   let space = " ";
   try {
     var conf = vscode.workspace.getConfiguration("TCC").get("args");
-    if (conf !==  null && conf !== undefined) {
+    if (conf !== null && conf !== undefined) {
       return space + conf;
     }
     throw new Error("No args given. Reverting to default.");
@@ -71,15 +88,22 @@ function getArgs(): string {
 /**
  * Creates a new terminal if none exist.
  */
-function checkTerminal() {
-  if (0 === _terminalStack.length) {
-    let terminal = vscode.window.createTerminal(
-      `compiler #${_terminalStack.length + 1}`
-    );
-    _terminalStack.push(terminal);
-  }
+function newTerminal() {
+  let terminal = vscode.window.createTerminal(
+    `TCC Terminal`
+  );
+  _terminalStack.push(terminal);
 }
 
+function checkTerminal() {
+  if (0 === _terminalStack.length) {
+    newTerminal();
+  }
+  else if (!vscode.window.terminals.includes(_terminalStack[0])) {
+    _terminalStack.pop();
+    newTerminal();
+  }
+}
 /**
  * Gets the current terminal.
  */
@@ -104,7 +128,7 @@ function getFileName(): string {
 function tcc(flags: string): string {
   let space = " ";
   let tccPath = "";
-  switch(os.platform()) {
+  switch (os.platform()) {
     case 'linux':
       tccPath = "usr/bin/tcc";
       return path
@@ -116,7 +140,7 @@ function tcc(flags: string): string {
         .join(_context.extensionPath, tccPath)
         .concat(space + flags);
     default:
-      console.log("Error: plattform " + os.platform() + " not supported.");
+      console.log("Error: platform " + os.platform() + " not supported.");
   }
 
   return path
